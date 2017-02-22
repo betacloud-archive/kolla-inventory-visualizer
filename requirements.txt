@@ -1,0 +1,5 @@
+PyYAML
+ansible
+ipaddr
+jinja2
+nwdiag

@@ -1,0 +1,34 @@
+nwdiag {
+  node_width = 100;
+  node_height = 50;
+
+{%- for group in groups %}
+  group {
+    label = "{{ group }}";
+  {%- for host in groups[group] %}
+    {{ host }};
+  {%- endfor %}
+  {%- if group == 'network'%}
+    external_vip;
+  {%- endif %}
+  {%- if group == 'internal'%}
+    internal_vip;
+  {%- endif %}
+  }
+{%- endfor %}
+{%- for network in networks %}
+{%- if networks[network]['nodes']|length > 0 %}
+  network {{ networks[network]['name'][8:]|lower }} {
+    {%- for node in networks[network]['nodes'] %}
+    {{ node['name'] }} [ address = "{{ node['device'] }}" ];
+    {%- endfor %}
+    {%- if networks[network]['name'][8:]|lower == 'vip_external' %}
+    external_vip [ address= "{{ external_vip }}" ];
+    {%- endif %}
+    {%- if networks[network]['name'][8:]|lower == 'internal' %}
+    internal_vip [ address= "{{ internal_vip }}" ];
+    {%- endif %}
+  }
+{%- endif %}
+{%- endfor %}
+}

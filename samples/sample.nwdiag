@@ -1,0 +1,91 @@
+nwdiag {
+   node_width = 100;
+   node_height = 50;
+  group {
+    label = "control";
+    control001;
+    control002;
+    control003;
+  }
+  group {
+    label = "compute";
+    compute001;
+    compute002;
+    compute003;
+    compute004;
+    compute005;
+    compute006;
+  }
+  group {
+    label = "seed";
+    seed;
+  }
+  group {
+    label = "storage";
+    storage001;
+    storage002;
+    storage003;
+  }
+  group {
+    label = "network";
+    network001;
+    network002;
+    external_vip;
+  }
+  network storage {
+    storage001 [ address = "eth2" ];
+    storage002 [ address = "eth2" ];
+    storage003 [ address = "eth2" ];
+    compute001 [ address = "eth2" ];
+    compute002 [ address = "eth2" ];
+    compute003 [ address = "eth2" ];
+    compute004 [ address = "eth2" ];
+    compute005 [ address = "eth2" ];
+    compute006 [ address = "eth2" ];
+  }
+  network vip_external {
+    network001 [ address = "eth2" ];
+    network002 [ address = "eth2" ];
+    external_vip [ address= "192.168.200.100" ];
+  }
+  network neutron_external {
+    network001 [ address = "eth3" ];
+    network002 [ address = "eth3" ];
+  }
+  network cluster {
+    control001 [ address = "eth2" ];
+    control002 [ address = "eth2" ];
+    control003 [ address = "eth2" ];
+    storage001 [ address = "eth2" ];
+    storage002 [ address = "eth2" ];
+    storage003 [ address = "eth2" ];
+  }
+  network internal {
+    control001 [ address = "eth0" ];
+    control002 [ address = "eth0" ];
+    control003 [ address = "eth0" ];
+    storage001 [ address = "eth0" ];
+    storage002 [ address = "eth0" ];
+    storage003 [ address = "eth0" ];
+    seed [ address = "eth0" ];
+    compute001 [ address = "eth0" ];
+    compute002 [ address = "eth0" ];
+    compute003 [ address = "eth0" ];
+    compute004 [ address = "eth0" ];
+    compute005 [ address = "eth0" ];
+    compute006 [ address = "eth0" ];
+    network001 [ address = "eth0" ];
+    network002 [ address = "eth0" ];
+    internal_vip [ address= "192.168.100.100" ];
+  }
+  network tunnel {
+    compute001 [ address = "eth1" ];
+    compute002 [ address = "eth1" ];
+    compute003 [ address = "eth1" ];
+    compute004 [ address = "eth1" ];
+    compute005 [ address = "eth1" ];
+    compute006 [ address = "eth1" ];
+    network001 [ address = "eth1" ];
+    network002 [ address = "eth1" ];
+  }
+}
