@@ -1,1 +1,1 @@
-# Kolla Ansible Environment Visualization (KAEV)
+# Kolla Inventory Visualizer (KIV)
