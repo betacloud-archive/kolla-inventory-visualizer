@@ -24,11 +24,12 @@ class Network(enum.Enum):
     VIP_EXTERNAL = 'kolla_external_vip_interface'
 
 
-GLOBALSFILE = 'samples/globals.yml'
-INVENTORYFILE = 'samples/inventory'
+GLOBALSFILE = os.environ.get('GLOBALSFILE', 'samples/globals.yml')
+INVENTORYFILE = os.environ.get('INVENTORYFILE', 'samples/inventory')
+
 TEMPLATEFILE = 'nwdiag.j2'
 GROUPS = {
-    'seed': [Network.INTERNAL],
+    'manager': [Network.INTERNAL],
     'network': [Network.INTERNAL, Network.VIP_EXTERNAL, Network.NEUTRON_EXTERNAL, Network.TUNNEL],
     'compute': [Network.INTERNAL, Network.TUNNEL, Network.STORAGE],
     'control': [Network.INTERNAL, Network.CLUSTER],

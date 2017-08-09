@@ -1,6 +1,6 @@
 nwdiag {
-   node_width = 100;
-   node_height = 50;
+  node_width = 100;
+  node_height = 50;
   group {
     label = "control";
     control001;
@@ -17,8 +17,8 @@ nwdiag {
     compute006;
   }
   group {
-    label = "seed";
-    seed;
+    label = "manager";
+    manager;
   }
   group {
     label = "storage";
@@ -67,7 +67,7 @@ nwdiag {
     storage001 [ address = "eth0" ];
     storage002 [ address = "eth0" ];
     storage003 [ address = "eth0" ];
-    seed [ address = "eth0" ];
+    manager [ address = "eth0" ];
     compute001 [ address = "eth0" ];
     compute002 [ address = "eth0" ];
     compute003 [ address = "eth0" ];

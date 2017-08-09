@@ -1,42 +1,49 @@
-# This is a sample environment file for Kolla 3.0.2
+# Sample environment file for Kolla 4.0.2
 
-# This is a betacloud specific inventory group.
-[seed]
-seed.testbed.betacloud.io
+# OSISM specific inventory group
+[manager]
+manager.testbed.osism.io
 
 [control]
-control001.testbed.betacloud.io
-control002.testbed.betacloud.io
-control003.testbed.betacloud.io
+control001.testbed.osism.io
+control002.testbed.osism.io
+control003.testbed.osism.io
 
 [compute]
-compute001.testbed.betacloud.io
-compute002.testbed.betacloud.io
-compute003.testbed.betacloud.io
-compute004.testbed.betacloud.io
-compute005.testbed.betacloud.io
-compute006.testbed.betacloud.io
+compute001.testbed.osism.io
+compute002.testbed.osism.io
+compute003.testbed.osism.io
+compute004.testbed.osism.io
+compute005.testbed.osism.io
+compute006.testbed.osism.io
 
 [network]
-network001.testbed.betacloud.io
-network002.testbed.betacloud.io
+network001.testbed.osism.io
+network002.testbed.osism.io
 
 [monitoring]
 
 [storage]
-storage001.testbed.betacloud.io
-storage002.testbed.betacloud.io
-storage003.testbed.betacloud.io
+storage001.testbed.osism.io
+storage002.testbed.osism.io
+storage003.testbed.osism.io
 
-[baremetal:children]
-compute
+# You can explicitly specify which hosts run each project by updating the
+# groups in the sections below. Common services are grouped together.
+[chrony-server:children]
 control
-monitoring
+
+[chrony:children]
 network
+compute
 storage
+monitoring
 
 [collectd:children]
 compute
+
+[baremetal:children]
+control
 
 [grafana:children]
 monitoring
@@ -44,20 +51,24 @@ monitoring
 [etcd:children]
 control
 
-[influxdb:children]
-monitoring
+[karbor:children]
+control
 
 [kibana:children]
 control
 
 [telegraf:children]
+compute
+control
 monitoring
+network
+storage
 
 [elasticsearch:children]
 control
 
 [haproxy:children]
-control
+network
 
 [mariadb:children]
 control
@@ -86,6 +97,9 @@ control
 [cloudkitty:children]
 control
 
+[freezer:children]
+control
+
 [memcached:children]
 control
 
@@ -104,11 +118,14 @@ control
 [murano:children]
 control
 
+[ceph:children]
+control
+
 [ironic:children]
 control
 
-[ceph:children]
-control
+[influxdb:children]
+monitoring
 
 [magnum:children]
 control
@@ -116,10 +133,19 @@ control
 [sahara:children]
 control
 
+[solum:children]
+control
+
 [mistral:children]
 control
 
 [manila:children]
+control
+
+[panko:children]
+control
+
+[gnocchi:children]
 control
 
 [ceilometer:children]
@@ -131,7 +157,7 @@ control
 [congress:children]
 control
 
-[gnocchi:children]
+[tacker:children]
 control
 
 # Tempest
@@ -144,10 +170,25 @@ control
 [vmtp:children]
 control
 
+[trove:children]
+control
+
 [watcher:children]
 control
 
 [rally:children]
+control
+
+[searchlight:children]
+control
+
+[octavia:children]
+control
+
+[designate:children]
+control
+
+[placement:children]
 control
 
 # Additional control implemented here. These groups allow you to control which
@@ -186,6 +227,9 @@ nova
 [nova-compute-ironic:children]
 nova
 
+[nova-serialproxy:children]
+nova
+
 # Neutron
 [neutron-server:children]
 control
@@ -207,10 +251,10 @@ neutron
 
 # Ceph
 [ceph-mon:children]
-control
+ceph
 
 [ceph-rgw:children]
-control
+ceph
 
 [ceph-osd:children]
 storage
@@ -235,6 +279,10 @@ cloudkitty
 [cloudkitty-processor:children]
 cloudkitty
 
+# Freezer
+[freezer-api:children]
+freezer
+
 # iSCSI
 [iscsid:children]
 compute
@@ -243,6 +291,16 @@ ironic-conductor
 
 [tgtd:children]
 storage
+
+# Karbor
+[karbor-api:children]
+karbor
+
+[karbor-protection:children]
+karbor
+
+[karbor-operationengine:children]
+karbor
 
 # Manila
 [manila-api:children]
@@ -253,6 +311,9 @@ manila
 
 [manila-share:children]
 network
+
+[manila-data:children]
+manila
 
 # Swift
 [swift-proxy-server:children]
@@ -276,6 +337,16 @@ barbican
 
 [barbican-worker:children]
 barbican
+
+# Trove
+[trove-api:children]
+trove
+
+[trove-conductor:children]
+trove
+
+[trove-taskmanager:children]
+trove
 
 # Heat
 [heat-api:children]
@@ -314,12 +385,18 @@ magnum
 [magnum-conductor:children]
 magnum
 
-# Sahara
-[sahara-api:children]
-sahara
+# Solum
+[solum-api:children]
+solum
 
-[sahara-engine:children]
-sahara
+[solum-worker:children]
+solum
+
+[solum-deployer:children]
+solum
+
+[solum-conductor:children]
+solum
 
 # Mistral
 [mistral-api:children]
@@ -330,6 +407,40 @@ mistral
 
 [mistral-engine:children]
 mistral
+
+# Aodh
+[aodh-api:children]
+aodh
+
+[aodh-evaluator:children]
+aodh
+
+[aodh-listener:children]
+aodh
+
+[aodh-notifier:children]
+aodh
+
+# Panko
+[panko-api:children]
+panko
+
+# Gnocchi
+[gnocchi-api:children]
+gnocchi
+
+[gnocchi-statsd:children]
+gnocchi
+
+[gnocchi-metricd:children]
+gnocchi
+
+# Sahara
+[sahara-api:children]
+sahara
+
+[sahara-engine:children]
+sahara
 
 # Ceilometer
 [ceilometer-api:children]
@@ -347,19 +458,6 @@ ceilometer
 [ceilometer-compute:children]
 compute
 
-# Aodh
-[aodh-api:children]
-aodh
-
-[aodh-evaluator:children]
-aodh
-
-[aodh-listener:children]
-aodh
-
-[aodh-notifier:children]
-aodh
-
 # Congress
 [congress-api:children]
 congress
@@ -369,16 +467,6 @@ congress
 
 [congress-policy-engine:children]
 congress
-
-# Gnocchi
-[gnocchi-api:children]
-gnocchi
-
-[gnocchi-statsd:children]
-gnocchi
-
-[gnocchi-metricd:children]
-gnocchi
 
 # Multipathd
 [multipathd:children]
@@ -400,3 +488,46 @@ senlin
 
 [senlin-engine:children]
 senlin
+
+# Searchlight
+[searchlight-api:children]
+searchlight
+
+[searchlight-listener:children]
+searchlight
+
+# Octavia
+[octavia-api:children]
+octavia
+
+[octavia-health-manager:children]
+octavia
+
+[octavia-housekeeping:children]
+octavia
+
+[octavia-worker:children]
+octavia
+
+# Designate
+[designate-api:children]
+designate
+
+[designate-central:children]
+designate
+
+[designate-mdns:children]
+designate
+
+[designate-worker:children]
+designate
+
+[designate-sink:children]
+designate
+
+[designate-backend-bind9:children]
+designate
+
+# Placement
+[placement-api:children]
+placement
